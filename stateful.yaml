@@ -1,0 +1,47 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+ name: stsghost
+ namespace: default
+spec:
+ replicas: 3
+ serviceName: sts-service
+ selector:
+  matchLabels:
+   tag: labelsts 
+ template:
+   metadata:
+    labels: 
+     tag: labelsts  
+   
+   spec:
+    containers:
+     - name: httd
+       image: ghost
+
+  
+---
+#PV
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+ name: pv
+ labels:
+  type: local
+spec:
+ storageClassName: manual
+ capacity:
+  storage: 5Gi
+ accessModes:
+    - ReadWriteOnce
+ hostPath:
+  path: "/mnt/data"
+
+---
+
+
+ 
+
+
